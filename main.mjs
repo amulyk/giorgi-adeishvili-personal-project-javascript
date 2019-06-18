@@ -12,7 +12,7 @@ const scenario = [
             let obj = store
             return obj;          
         },
-        restore: async (store) => {
+        restore: async () => {
 
         }
     },
@@ -26,9 +26,8 @@ const scenario = [
         call: async (store) => {
             throw new Error('Something is wrong');
         },
-        restore: async (store) => {
-            let obj = store;
-            return obj;     
+        restore: async () => {
+            return 'restored';     
           }
     },
     {
@@ -42,7 +41,7 @@ const scenario = [
 
             return 'great';  
         },        
-        restore: async (store) => {
+        restore: async () => {
             return 'great';          
         }
     }
