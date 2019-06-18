@@ -5,7 +5,8 @@ const scenario = [
         index: 2,
         meta: {
             title: 'Read popular customers 2',
-            description: 'This action is responsible for reading the most popular customers'
+            description: 'This action is responsible for reading the most popular customers',
+            // age: 5
         },
         // callback for main execution
         call: async (store) => {            

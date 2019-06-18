@@ -8,9 +8,7 @@ export class Transaction{
     async dispatch(scenario){
         this.scenario = scenario;
         let id = this.getIndex();
-        const exists = this.checkProperties();
-        
-        if(exists){
+        this.checkProperties();
             let i = 0;
             let count = 0;
             let len = id.length;
@@ -58,9 +56,8 @@ export class Transaction{
                         if(this.scenario[count].restore){
                                 let restore = await this.scenario[count].restore(this.scenario[count]);
                                     let index = this.scenario[count].index;
-                  
-                                     let storeBefore = this.scenario[count];
-                                     let storeAfter = restore;
+                                    let storeBefore = this.scenario[count];
+                                    let storeAfter = restore;
                                     let meta = this.scenario[count].meta;
                                     this.store = null;
                                     logObj = {
@@ -82,7 +79,6 @@ export class Transaction{
                         throw err;
                     }
                 }
-            }
         }
     }
     };
@@ -97,45 +93,24 @@ export class Transaction{
     }
 
     checkProperties(){
-        let exists = false;
-        let cpElement;
         this.scenario.forEach(element => {
             if(!element.index){
-                let err = new Error('Please, add index to scenario');
-                cpElement = element;
-                cpElement.error = {};
-                cpElement.error.name = err.name;
-                cpElement.error.message = err.message;
-                cpElement.error.stack = err.stack;
-                this.logs.push(cpElement);
-                throw err;
+                throw new Error('Please, add index in scenario');
             }
 
             if(!element.meta){
-                let err = new Error('Please, add information to scenario');
-                cpElement = element;
-                cpElement.error = {};
-                cpElement.error.name = err.name;
-                cpElement.error.message = err.message;
-                cpElement.error.stack = err.stack;
-                this.logs.push(cpElement);
-                throw err;
+                throw new Error('Please, add information to scenario');
             } else if(element.meta){
                 let keys = Object.getOwnPropertyNames(element.meta);
                 const title = keys.indexOf('title');
                 const description = keys.indexOf('description');
-                if(title === 0 && description === 1){
-                    exists = true;
+                if(!(keys.length === 2 && keys[title] === 'title' && keys[description] === 'description')){
+                    throw new Error('Wrong meta');
                 }
             }
-
             if(!element.call){
-                exists = false;
-            }
-        });
-
-        if(exists){
-            return true;
-        } else return false;   
+                throw new Error('call method is required');
+            } 
+        });  
     }
 }
