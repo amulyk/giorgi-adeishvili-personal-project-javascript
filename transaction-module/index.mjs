@@ -1,5 +1,4 @@
-import { scenario } from '../main.mjs';
-class Transaction{
+export class Transaction{
     constructor(){
         this.store = {};
         this.scenario = [];
@@ -140,17 +139,3 @@ class Transaction{
         } else return false;   
     }
 }
-
-const transaction = new Transaction();
-(async() => {
-    try {
-        await transaction.dispatch(scenario);
-        const store = transaction.store; // {} | null
-        const logs = transaction.logs; // []
-        console.log(store);
-        console.log(logs);
-    } catch (err) {
-        console.log(err);
-        // Send email about broken transaction
-    }
-})();

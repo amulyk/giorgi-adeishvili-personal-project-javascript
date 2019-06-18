@@ -1,4 +1,4 @@
-export {scenario};
+import { Transaction } from './transaction-module';
 
 const scenario = [
     {
@@ -48,13 +48,16 @@ const scenario = [
     }
 ];
 
-const popularCustomers = [
-    {
-        name: 'john',
-        country: 'USA',
-        id: '28721949201'
+const transaction = new Transaction();
+(async() => {
+    try {
+        await transaction.dispatch(scenario);
+        const store = transaction.store; // {} | null
+        const logs = transaction.logs; // []
+        console.log(store);
+        console.log(logs);
+    } catch (err) {
+        console.log(err);
+        // Send email about broken transaction
     }
-];
-
-
-
+})();
