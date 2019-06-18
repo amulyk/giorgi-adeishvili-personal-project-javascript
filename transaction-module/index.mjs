@@ -39,7 +39,10 @@ export class Transaction extends Validate{
                    count = 0;
                }
                else count++;
-            }  catch (err){    
+            }  catch (err){
+                if(this.scenario[count].index === 1 || this.scenario[count].index === id[len-1]){
+                    throw err;
+                }    
                 if(scenario[count].silent == false || scenario[count].silent == undefined){
                 let index = this.scenario[count].index;
                         let meta = this.scenario[count].meta;
