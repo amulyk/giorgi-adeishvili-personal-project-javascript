@@ -6,15 +6,14 @@ const scenario = [
         meta: {
             title: 'Read popular customers 2',
             description: 'This action is responsible for reading the most popular customers',
-            // age: 5
         },
+        silent: true,
         // callback for main execution
         call: async (store) => {            
-            let obj = store
-            return obj;          
+            throw new Error('Transaction Failed');        
         },
         restore: async () => {
-
+            return 'restored';
         }
     },
     {
@@ -23,13 +22,12 @@ const scenario = [
             title: 'Read popular customers 1',
             description: 'This action is responsible for reading the most popular customers'
         },
+        silent: true,
         // callback for main execution
         call: async (store) => {
-            throw new Error('Something is wrong');
-        },
-        restore: async () => {
-            return 'restored';     
-          }
+            let obj = store
+            return obj; 
+        }
     },
     {
         index: 3,
@@ -39,12 +37,35 @@ const scenario = [
         },
         // callback for main execution
         call: async (store) => {
-
-            return 'great';  
+             let obj = store
+            return obj;  
+        }   
+    },
+    {
+        index: 4,
+        meta: {
+            title: 'Read popular customers 3',
+            description: 'This action is responsible for reading the most popular customers'
+        },
+        // callback for main execution
+        silent: false,
+        call: async (store) => {
+             let obj = store
+            return obj;  
         },        
-        restore: async () => {
-            return 'great';          
-        }
+    },
+    {
+        index: 5,
+        meta: {
+            title: 'Read popular customers 3',
+            description: 'This action is responsible for reading the most popular customers'
+        },
+        // callback for main execution
+        silent: false,
+        call: async (store) => {
+             let obj = store
+            return obj;  
+        },        
     }
 ];
 
@@ -54,10 +75,8 @@ const transaction = new Transaction();
         await transaction.dispatch(scenario);
         const store = transaction.store; // {} | null
         const logs = transaction.logs; // []
-        console.log(store);
         console.log(logs);
     } catch (err) {
         console.log(err);
-        // Send email about broken transaction
     }
 })();
